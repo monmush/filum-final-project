@@ -1,35 +1,34 @@
-import { Link, useHistory } from 'react-router-dom'
+import { useState } from 'react'
 import { Row, Col, Form, Typography, Input, Button, Space } from 'antd'
+import { Link, useHistory } from 'react-router-dom'
 import request from '../libs/request'
+import { layout } from '../libs/form'
 
 const Login = () => {
   const { Title } = Typography
   const history = useHistory()
+  const [status, setStatus] = useState('idle')
 
-  const layout = {
-    labelCol: {
-      span: 8,
-    },
-    wrapperCol: {
-      span: 16,
-    },
-  }
-
+  // API call - Login
   const onFinish = async values => {
+    setStatus('loading')
     try {
       const res = await request({
         url: `${process.env.REACT_APP_BASE_URL}login`,
         method: 'post',
         data: values,
       })
-      history.push('/')
+      setStatus('done')
       localStorage.setItem('access_token', res.data.access_token)
-    } catch (err) {}
+      history.push('/')
+    } catch (err) {
+      setStatus('done')
+    }
   }
 
   return (
     <Row justify="center" align="middle" style={{ height: '100vh' }}>
-      <Col span={12}>
+      <Col span={8}>
         <Title level={3}>Login</Title>
         <Form {...layout} name="basic" layout="vertical" onFinish={onFinish}>
           <Form.Item
@@ -58,7 +57,7 @@ const Login = () => {
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button loading={status === 'loading'} type="primary" htmlType="submit">
                 Login
               </Button>
               <Link to="/register">Register a new account?</Link>
