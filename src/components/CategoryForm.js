@@ -4,20 +4,20 @@ import { layout } from '../libs/form'
 
 const { TextArea } = Input
 
-const CategoryForm = ({ createCategory, closeModal }) => {
-  const onFinish = async values => {
+const CategoryForm = ({ updateCategory, closeModal }) => {
+  const submitForm = async values => {
     await request({
       url: `${process.env.REACT_APP_BASE_URL}categories`,
       method: 'post',
       data: values,
     })
     message.success('New category was successfully created!')
-    createCategory()
+    updateCategory()
     closeModal()
   }
 
   return (
-    <Form {...layout} name="Category" layout="vertical" onFinish={onFinish}>
+    <Form {...layout} name="Category" layout="vertical" onFinish={submitForm}>
       <Form.Item
         label="Category name"
         name="name"

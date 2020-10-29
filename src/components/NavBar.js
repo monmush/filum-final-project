@@ -7,7 +7,7 @@ const NavBar = () => {
   const history = useHistory()
   const [userInfo, setUserInfo] = useState()
 
-  const logoutHandler = () => {
+  const logout = () => {
     localStorage.removeItem('access_token')
     history.push('/login')
   }
@@ -29,7 +29,7 @@ const NavBar = () => {
       <Col>
         <Space>
           <span>{!!userInfo ? userInfo.name : null}</span>
-          <Button type="link" onClick={logoutHandler}>
+          <Button type="link" onClick={logout}>
             Logout
           </Button>
         </Space>

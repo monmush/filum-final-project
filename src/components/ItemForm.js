@@ -1,17 +1,13 @@
 import { Form, Button, Input, message, InputNumber } from 'antd'
 import request from '../libs/request'
-
+import { layout } from '../libs/form'
 const { TextArea } = Input
 
 const ItemForm = ({ createItem, closeModal, category_id }) => {
   const [form] = Form.useForm()
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 24 },
-  }
 
   // API call - Create a new item
-  const onFinish = async values => {
+  const submitItem = async values => {
     await request({
       url: `${process.env.REACT_APP_BASE_URL}categories/${category_id}/items    `,
       method: 'post',
@@ -19,12 +15,12 @@ const ItemForm = ({ createItem, closeModal, category_id }) => {
     })
     message.success('New item was successfully created!')
     createItem()
-    closeModal()
     form.resetFields()
+    closeModal()
   }
 
   return (
-    <Form {...layout} form={form} name="basic" layout="vertical" onFinish={onFinish}>
+    <Form {...layout} form={form} name="Item" layout="vertical" onFinish={submitItem}>
       <Form.Item
         label="Item name"
         name="name"

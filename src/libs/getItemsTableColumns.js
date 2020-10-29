@@ -1,10 +1,10 @@
 import { Space, Button, Popconfirm } from 'antd'
 
-// Generate pre-defined table columns structure
+// Generate an object that defines table columns structure
 // If the row is editable => return col with onCell prop
 // If the row is not editable => return col
 // Antd table will then render the Form Input base on onCell prop
-const ItemsTableColumns = (isEditing, save, cancel, edit, deleteItem) => {
+const getItemsTableColumns = (isEditing, saveItem, cancelEdit, editItem, deleteItem) => {
   const columns = [
     {
       title: 'Name',
@@ -44,17 +44,17 @@ const ItemsTableColumns = (isEditing, save, cancel, edit, deleteItem) => {
       render: (_, record) => {
         const editable = isEditing(record)
         return editable ? (
-          <Space direction="horizontal" >
-            <Button type="link" onClick={() => save(record.id)}>
+          <Space direction="horizontal">
+            <Button type="link" onClick={() => saveItem(record.id)}>
               Save
             </Button>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancelEdit}>
               <Button type="link">Cancel</Button>
             </Popconfirm>
           </Space>
         ) : (
-          <Space direction="horizontal" >
-            <Button type="link" onClick={() => edit(record)}>
+          <Space direction="horizontal">
+            <Button type="link" onClick={() => editItem(record)}>
               Edit
             </Button>
             <Button type="link" onClick={() => deleteItem(record.id)}>
@@ -93,4 +93,4 @@ const ItemsTableColumns = (isEditing, save, cancel, edit, deleteItem) => {
   })
 }
 
-export default ItemsTableColumns
+export default getItemsTableColumns

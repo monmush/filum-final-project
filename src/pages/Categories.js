@@ -32,15 +32,15 @@ const Categories = () => {
     fetchAllCategory()
   }, [offset, limit, isCatUpdate])
 
-  const createCategory = () => {
+  const updateCategory = () => {
     setIsCatUpdate(prev => !prev)
   }
 
-  const onShowSizeChange = (_, pageSize) => {
+  const changeShowSize = (_, pageSize) => {
     setLimit(pageSize)
   }
 
-  const onPageChange = pageNumber => {
+  const changePage = pageNumber => {
     setOffset((pageNumber - 1) * limit)
   }
 
@@ -93,10 +93,10 @@ const Categories = () => {
               columns={columns}
               pagination={{
                 showSizeChanger: true,
-                onShowSizeChange: onShowSizeChange,
+                onShowSizeChange: changeShowSize,
                 defaultCurrent: 1,
                 total: categories.total_categories,
-                onChange: onPageChange,
+                onChange: changePage,
               }}
             />
           </Space>
@@ -107,7 +107,7 @@ const Categories = () => {
         visible={showModal}
         footer={false}
         onCancel={() => setShowModal(false)}>
-        <CategoryForm createCategory={createCategory} closeModal={() => setShowModal(false)} />
+        <CategoryForm updateCategory={updateCategory} closeModal={() => setShowModal(false)} />
       </Modal>
     </>
   )

@@ -5,7 +5,7 @@ import request from '../libs/request'
 import NavBar from '../components/NavBar'
 import ItemForm from '../components/ItemForm'
 import EditableCell from '../components/EditableCell'
-import ItemsTableColumns from '../components/ItemsTableColumns'
+import getItemsTableColumns from '../libs/getItemsTableColumns'
 
 const { Title } = Typography
 
@@ -50,16 +50,16 @@ const Items = () => {
     setIsItemUpdate(prev => !prev)
   }
 
-  const edit = ({ name, price, description, id }) => {
+  const editItem = ({ name, price, description, id }) => {
     form.setFieldsValue({ name, price, description })
     setEditingId(id)
   }
 
-  const cancel = () => {
+  const cancelEdit = () => {
     setEditingId('')
   }
 
-  const save = async id => {
+  const saveItem = async id => {
     try {
       const row = await form.validateFields()
       const newData = [...items.items]
@@ -82,11 +82,11 @@ const Items = () => {
     }
   }
 
-  const onShowSizeChange = (_, pageSize) => {
+  const changeShowSize = (_, pageSize) => {
     setLimit(pageSize)
   }
 
-  const onPageChange = pageNumber => {
+  const changePage = pageNumber => {
     setOffset((pageNumber - 1) * limit)
   }
 
@@ -111,14 +111,20 @@ const Items = () => {
                 }}
                 loading={status === 'loading'}
                 dataSource={items.items}
-                columns={ItemsTableColumns(isEditing, save, cancel, edit, deleteItem)}
+                columns={getItemsTableColumns(
+                  isEditing,
+                  saveItem,
+                  cancelEdit,
+                  editItem,
+                  deleteItem,
+                )}
                 rowClassName="editable-row"
                 pagination={{
                   showSizeChanger: true,
-                  onShowSizeChange: onShowSizeChange,
+                  onShowSizeChange: changeShowSize,
                   defaultCurrent: 1,
                   total: items.total_categories,
-                  onChange: onPageChange,
+                  onChange: changePage,
                 }}
               />
             </Form>
