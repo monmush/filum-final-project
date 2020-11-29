@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Row, Col, Space, Button } from 'antd'
+import { Row, Col, Space, Button, Typography } from 'antd'
 import { useHistory, Link } from 'react-router-dom'
-import request from '../libs/request'
+import request, { getToken } from '../libs/request'
+
+const { Text } = Typography
 
 const NavBar = () => {
   const history = useHistory()
@@ -17,10 +19,15 @@ const NavBar = () => {
     async function fetchUserInfo() {
       const res = await request({
         url: `${process.env.REACT_APP_BASE_URL}me`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
       })
       setUserInfo(res.data)
     }
-    fetchUserInfo()
+    if (getToken()) {
+      fetchUserInfo()
+    }
   }, [])
 
   return (
@@ -28,7 +35,7 @@ const NavBar = () => {
       <Link to="/">Home</Link>
       <Col>
         <Space>
-          <span>{!!userInfo ? userInfo.name : null}</span>
+          <Text>{!!userInfo ? userInfo.name : null}</Text>
           <Button type="link" onClick={logout}>
             Logout
           </Button>
