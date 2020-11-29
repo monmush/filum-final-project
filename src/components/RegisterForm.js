@@ -10,7 +10,12 @@ const RegisterForm = ({ status, onRegister }) => {
   return (
     <>
       <Title level={3}>Register</Title>
-      <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onRegister}>
+      <Form
+        {...LAYOUT}
+        name="basic"
+        layout="vertical"
+        onFinish={onRegister}
+        data-testid="register-form">
         <>
           <Form.Item
             label="Name"
