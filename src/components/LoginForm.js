@@ -9,7 +9,7 @@ const LoginForm = ({ onLogin, status }) => {
   return (
     <>
       <Title level={3}>Login</Title>
-      <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onLogin}>
+      <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onLogin} data-testid="login-form">
         <Form.Item
           label="Username"
           name="username"
