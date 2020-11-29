@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Row, Col, Form, Typography, Input, Button, Space } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
 import request from '../libs/request'
-import { layout } from '../libs/form'
+import { LAYOUT } from '../libs/form'
 
 const Login = () => {
   const { Title } = Typography
@@ -30,7 +30,7 @@ const Login = () => {
     <Row justify="center" align="middle" style={{ height: '100vh' }}>
       <Col span={8}>
         <Title level={3}>Login</Title>
-        <Form {...layout} name="basic" layout="vertical" onFinish={onFinish}>
+        <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="Username"
             name="username"

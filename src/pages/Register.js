@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Row, Col, Form, Typography, message, Input, Button, Space } from 'antd'
 import request from '../libs/request'
-import { layout } from '../libs/form'
+import { LAYOUT } from '../libs/form'
 
 const Register = () => {
   const history = useHistory()
@@ -30,7 +30,7 @@ const Register = () => {
     <Row justify="center" align="middle" style={{ height: '100vh' }}>
       <Col span={8}>
         <Title level={3}>Register</Title>
-        <Form {...layout} name="basic" layout="vertical" onFinish={onFinish}>
+        <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onFinish}>
           <>
             <Form.Item
               label="Name"

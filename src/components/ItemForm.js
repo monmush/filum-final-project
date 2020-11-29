@@ -1,6 +1,7 @@
 import { Form, Button, Input, message, InputNumber } from 'antd'
 import request from '../libs/request'
-import { layout } from '../libs/form'
+import { LAYOUT } from '../libs/form'
+
 const { TextArea } = Input
 
 const ItemForm = ({ createItem, closeModal, category_id }) => {
@@ -20,7 +21,7 @@ const ItemForm = ({ createItem, closeModal, category_id }) => {
   }
 
   return (
-    <Form {...layout} form={form} name="Item" layout="vertical" onFinish={submitItem}>
+    <Form {...LAYOUT} form={form} name="Item" layout="vertical" onFinish={submitItem}>
       <Form.Item
         label="Item name"
         name="name"

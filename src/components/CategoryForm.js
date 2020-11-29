@@ -1,6 +1,6 @@
 import { Form, Button, Input, message } from 'antd'
 import request from '../libs/request'
-import { layout } from '../libs/form'
+import { LAYOUT } from '../libs/form'
 
 const { TextArea } = Input
 
@@ -17,7 +17,7 @@ const CategoryForm = ({ updateCategory, closeModal }) => {
   }
 
   return (
-    <Form {...layout} name="Category" layout="vertical" onFinish={submitForm}>
+    <Form {...LAYOUT} name="Category" layout="vertical" onFinish={submitForm}>
       <Form.Item
         label="Category name"
         name="name"
