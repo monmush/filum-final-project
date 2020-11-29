@@ -1,28 +1,28 @@
 import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Row, Col, Form, Typography, message, Input, Button, Space } from 'antd'
-import request from '../libs/request'
+import request, { REQUEST_STATUS } from '../libs/request'
 import { LAYOUT } from '../libs/form'
 
 const Register = () => {
   const history = useHistory()
   const { Title } = Typography
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
 
   // API call - Register a new user
   const onFinish = async values => {
-    setStatus('loading')
     try {
+      setStatus(REQUEST_STATUS.LOADING)
       await request({
         url: `${process.env.REACT_APP_BASE_URL}registrations`,
         method: 'post',
         data: values,
       })
-      setStatus('done')
+      setStatus(REQUEST_STATUS.DONE)
       message.success('Your account was created!')
       history.push('/login')
     } catch (err) {
-      setStatus('done')
+      setStatus(REQUEST_STATUS.DONE)
     }
   }
 

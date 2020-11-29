@@ -36,5 +36,11 @@ const request = options => {
 
   return client(options).then(onSuccess).catch(onError)
 }
+
+export const REQUEST_STATUS = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  DONE: 'done',
+}
 export { getToken }
 export default request

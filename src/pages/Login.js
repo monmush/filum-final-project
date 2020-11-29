@@ -1,28 +1,28 @@
 import { useState } from 'react'
 import { Row, Col, Form, Typography, Input, Button, Space } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
-import request from '../libs/request'
+import request, { REQUEST_STATUS } from '../libs/request'
 import { LAYOUT } from '../libs/form'
 
 const Login = () => {
   const { Title } = Typography
   const history = useHistory()
-  const [status, setStatus] = useState('idle')
+  const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
 
   // API call - Login
   const onFinish = async values => {
-    setStatus('loading')
     try {
+      setStatus(REQUEST_STATUS.LOADING)
       const res = await request({
         url: `${process.env.REACT_APP_BASE_URL}login`,
         method: 'post',
         data: values,
       })
-      setStatus('done')
+      setStatus(REQUEST_STATUS.DONE)
       localStorage.setItem('access_token', res.data.access_token)
       history.push('/')
     } catch (err) {
-      setStatus('done')
+      setStatus(REQUEST_STATUS.DONE)
     }
   }
 
@@ -57,7 +57,7 @@ const Login = () => {
 
           <Form.Item>
             <Space>
-              <Button loading={status === 'loading'} type="primary" htmlType="submit">
+              <Button loading={status === REQUEST_STATUS.LOADING} type="primary" htmlType="submit">
                 Login
               </Button>
               <Link to="/register">Register a new account?</Link>

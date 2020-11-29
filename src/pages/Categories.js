@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { Row, Col, Typography, Table, Button, Space, Modal } from 'antd'
 import { Link } from 'react-router-dom'
 import NavBar from '../components/NavBar'
-import request from '../libs/request'
+import request, { REQUEST_STATUS } from '../libs/request'
 import CategoryForm from '../components/CategoryForm'
 
 const { Title } = Typography
 
 const Categories = () => {
   const [categories, setCategories] = useState({})
-  const [status, setStatus] = useState('loading')
+  const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
   const [showModal, setShowModal] = useState(false)
   const [isCatUpdate, setIsCatUpdate] = useState(false)
   const [offset, setOffset] = useState(0)
@@ -17,16 +17,16 @@ const Categories = () => {
 
   // API call - Fetch all the categories
   useEffect(() => {
-    setStatus('loading')
     async function fetchAllCategory() {
       try {
+        setStatus(REQUEST_STATUS.LOADING)
         const res = await request({
           url: `${process.env.REACT_APP_BASE_URL}categories?offset=${offset}&limit=${limit}`,
         })
         setCategories(res.data)
-        setStatus('done')
+        setStatus(REQUEST_STATUS.DONE)
       } catch (err) {
-        setStatus('done')
+        setStatus(REQUEST_STATUS.DONE)
       }
     }
     fetchAllCategory()
@@ -88,7 +88,7 @@ const Categories = () => {
             </Button>
             <Table
               bordered
-              loading={status === 'loading'}
+              loading={status === REQUEST_STATUS.LOADING}
               dataSource={categories.categories}
               columns={columns}
               pagination={{

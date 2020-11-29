@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Col, Space, Button, Table, Modal, Typography, message, Form } from 'antd'
-import request from '../libs/request'
+import request, { REQUEST_STATUS } from '../libs/request'
 import NavBar from '../components/NavBar'
 import ItemForm from '../components/ItemForm'
 import EditableCell from '../components/EditableCell'
@@ -12,7 +12,7 @@ const { Title } = Typography
 const Items = () => {
   const { category_id } = useParams()
   const [form] = Form.useForm()
-  const [status, setStatus] = useState('loading')
+  const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
   const [items, setItems] = useState({})
   const [showModal, setShowModal] = useState(false)
   const [isItemUpdate, setIsItemUpdate] = useState(false)
@@ -25,13 +25,15 @@ const Items = () => {
   useEffect(() => {
     async function fetchItemsInCategory() {
       try {
+        setStatus(REQUEST_STATUS.LOADING)
+
         const res = await request({
           url: `${process.env.REACT_APP_BASE_URL}categories/${category_id}/items?offset=${offset}&limit=${limit}`,
         })
         setItems(res.data)
-        setStatus('done')
+        setStatus(REQUEST_STATUS.DONE)
       } catch (err) {
-        setStatus('done')
+        setStatus(REQUEST_STATUS.DONE)
       }
     }
     fetchItemsInCategory()
@@ -109,7 +111,7 @@ const Items = () => {
                     cell: EditableCell,
                   },
                 }}
-                loading={status === 'loading'}
+                loading={status === REQUEST_STATUS.LOADING}
                 dataSource={items.items}
                 columns={getItemsTableColumns(
                   isEditing,
