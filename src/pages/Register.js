@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { Row, Col, Form, Typography, message, Input, Button, Space } from 'antd'
+import { useHistory } from 'react-router-dom'
+import { Row, Col, message } from 'antd'
 import request, { REQUEST_STATUS } from '../libs/request'
-import { LAYOUT } from '../libs/form'
+import RegisterForm from '../components/RegisterForm'
 
 const Register = () => {
   const history = useHistory()
-  const { Title } = Typography
   const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
 
   // API call - Register a new user
-  const onFinish = async values => {
+  const onRegister = async values => {
     try {
       setStatus(REQUEST_STATUS.LOADING)
       await request({
@@ -29,66 +28,7 @@ const Register = () => {
   return (
     <Row justify="center" align="middle" style={{ height: '100vh' }}>
       <Col span={8}>
-        <Title level={3}>Register</Title>
-        <Form {...LAYOUT} name="basic" layout="vertical" onFinish={onFinish}>
-          <>
-            <Form.Item
-              label="Name"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your name!',
-                },
-              ]}>
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your email!',
-                },
-              ]}>
-              <Input type="email" />
-            </Form.Item>
-          </>
-
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your username!',
-              },
-            ]}>
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}>
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item>
-            <Space>
-              <Button loading={status === 'loading'} type="primary" htmlType="submit">
-                Register
-              </Button>
-              <Link to="/login">Already has an account?</Link>
-            </Space>
-          </Form.Item>
-        </Form>
+        <RegisterForm onRegister={onRegister} status={status} />
       </Col>
     </Row>
   )
