@@ -21,6 +21,11 @@ test('call onRegister with name, email, username, password', async () => {
   const usernameInput = getByLabelText('Username')
   const passwordInput = getByLabelText('Password')
 
+  expect(nameInput.value).toBe('')
+  expect(emailInput.value).toBe('')
+  expect(usernameInput.value).toBe('')
+  expect(passwordInput.value).toBe('')
+
   const fakeName = faker.name.findName()
   const fakeEmail = faker.internet.email()
   const fakeUsername = faker.internet.userName()
