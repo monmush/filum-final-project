@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Row, Col, Typography, Table, Button, Space, Modal } from 'antd'
+import { Row, Col, Typography, Table, Button, Space, Modal, message } from 'antd'
 import { Link } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import request, { REQUEST_STATUS } from '../libs/request'
@@ -11,7 +11,7 @@ const Categories = () => {
   const [categories, setCategories] = useState({})
   const [status, setStatus] = useState(REQUEST_STATUS.IDLE)
   const [showModal, setShowModal] = useState(false)
-  const [isCatUpdate, setIsCatUpdate] = useState(false)
+  const [isRefetch, setIsRefetch] = useState(false)
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(10)
 
@@ -30,10 +30,22 @@ const Categories = () => {
       }
     }
     fetchAllCategory()
-  }, [offset, limit, isCatUpdate])
+  }, [offset, limit, isRefetch])
 
-  const updateCategory = () => {
-    setIsCatUpdate(prev => !prev)
+  const createCategory = async values => {
+    await request({
+      url: `${process.env.REACT_APP_BASE_URL}categories`,
+      method: 'post',
+      data: values,
+    })
+    message.success('New category was successfully created!')
+
+    forceRefetch()
+    setShowModal(false)
+  }
+
+  const forceRefetch = () => {
+    setIsRefetch(prev => !prev)
   }
 
   const changeShowSize = (_, pageSize) => {
@@ -107,7 +119,7 @@ const Categories = () => {
         visible={showModal}
         footer={false}
         onCancel={() => setShowModal(false)}>
-        <CategoryForm updateCategory={updateCategory} closeModal={() => setShowModal(false)} />
+        <CategoryForm createCategory={createCategory} />
       </Modal>
     </>
   )
