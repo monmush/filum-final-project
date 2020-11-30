@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Row, Col } from 'antd'
-import LoginForm from '../components/LoginForm'
 import { useHistory } from 'react-router-dom'
+import LoginForm from '../components/LoginForm'
 import request, { REQUEST_STATUS } from '../libs/request'
 
 const Login = () => {

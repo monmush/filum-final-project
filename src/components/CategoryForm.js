@@ -1,5 +1,4 @@
-import { Form, Button, Input, message } from 'antd'
-import request from '../libs/request'
+import { Form, Button, Input } from 'antd'
 import { LAYOUT } from '../libs/form'
 
 const { TextArea } = Input
